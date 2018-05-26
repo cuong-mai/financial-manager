@@ -19,6 +19,8 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.button_setting)
     protected Button settingBtn;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
