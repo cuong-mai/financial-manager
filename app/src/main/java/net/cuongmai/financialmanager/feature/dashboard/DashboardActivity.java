@@ -9,8 +9,8 @@ import android.view.View;
 
 import net.cuongmai.financialmanager.core.base.BaseActivity;
 import net.cuongmai.financialmanager.R;
-import net.cuongmai.financialmanager.feature.dashboard.adapter.WidgetsViewAdapter;
-import net.cuongmai.financialmanager.feature.demofeature.model.Item;
+import net.cuongmai.financialmanager.feature.balance.model.SummaryWidgetViewModel;
+import net.cuongmai.financialmanager.feature.recent.viewholder.model.RecentWidgetViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class DashboardActivity extends BaseActivity {
     @BindView (R.id.view_dashboard_widgets)
     protected RecyclerView widgetsView;
 
-    private List<Item> items = new ArrayList<>();
+    private List<WidgetViewModel> widgetViewModels = new ArrayList<>();
 
 
 
@@ -43,15 +43,20 @@ public class DashboardActivity extends BaseActivity {
         widgetsView.setHasFixedSize(true);
         widgetsView.setLayoutManager(new LinearLayoutManager(this));
         setData();
-        widgetsView.setAdapter(new WidgetsViewAdapter(items));
+        widgetsView.setAdapter(new WidgetsViewAdapter(widgetViewModels, new WidgetViewHolderFactoryImpl()));
     }
 
 
 
     private void setData() {
+        WidgetViewModel widgetViewModel;
         for (int i = 0; i < 20; i++) {
-            Item item = new Item("Item " + i + ", ", "Child " + i, i % 2);
-            items.add(item);
+            if (i % 2 == 0) {
+                widgetViewModel = new SummaryWidgetViewModel("Summary: " + i);
+            } else {
+                widgetViewModel = new RecentWidgetViewModel("Recent: " + i);
+            }
+            widgetViewModels.add(widgetViewModel);
         }
     }
 
@@ -80,7 +85,4 @@ public class DashboardActivity extends BaseActivity {
     public boolean isFabVisible() {
         return true;
     }
-
-
-
 }
